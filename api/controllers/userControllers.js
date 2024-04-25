@@ -27,7 +27,24 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//update user
+const updateUser = async (req, res) => {
+  const { mobileNumber, email } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { mobileNumber: mobileNumber },
+      { new: true, runValidators: true }
+    );
 
+    if (!updatedUser) {
+      return res.status(404).json({ message: "updated User not found" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 // delete user
 const deleteUser = async (req, res) => {
   const userId = req.params.id;
@@ -53,16 +70,21 @@ const getAdmin = async (req, res) => {
     const user = await User.findOne(query);
 
     if (email !== req.decoded.email) {
-        return res.status(403).send({ message: 'forbidden access' })
+      return res.status(403).send({ message: "forbidden access" });
     }
 
     let admin = false;
+    let storeManager = false;
 
     if (user) {
       admin = user?.role === "admin";
     }
 
-    res.status(200).json({admin});
+    if (user) {
+      storeManager = user?.role === "store manager";
+    }
+
+    res.status(200).json({ admin, storeManager });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -71,31 +93,32 @@ const getAdmin = async (req, res) => {
 //make admin of a user
 
 const makeAdmin = async (req, res) => {
-    const userId = req.params.id;
-    const { name, email, photoURL, role } = req.body;
-    try {
-        const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            {role: 'admin'},
-            { new: true, runValidators: true }
-        );
+  const userId = req.params.id;
+  const { name, email, photoURL, role } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { role: role },
+      { new: true, runValidators: true }
+    );
 
-        // console.log(updatedUser)
+    // console.log(updatedUser)
 
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.status(200).json(updatedUser);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {
   getAllUsers,
   createUser,
+  updateUser,
   deleteUser,
   getAdmin,
-  makeAdmin
+  makeAdmin,
 };
