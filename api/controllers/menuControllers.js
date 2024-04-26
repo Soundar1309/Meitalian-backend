@@ -13,7 +13,6 @@ const getAllMenuItems = async (req, res) => {
 // post a menu item
 const postMenuItem = async (req, res) => {
   const newMenu = req.body;
-  console.log(newMenu);
   try {
     const result = await Menu.create(newMenu);
     res.status(200).json(result);
@@ -75,8 +74,6 @@ const updateMenuItem = async (req, res) => {
       { name, recipe, image, category, price, size, toppings },
       { new: true, runValidators: true }
     );
-
-    console.log(updatedMenu);
 
     if (!updatedMenu) {
       return res.status(404).json({ message: "updated Item not found" });

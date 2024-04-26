@@ -45,6 +45,22 @@ const updateUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getUserByEmail = async (req, res) => {
+  const email = req.params.id;
+  console.log(email);
+  try {
+    const getUser = await User.findOne({ email: email });
+    console.log(getUser);
+    if (!getUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(getUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // delete user
 const deleteUser = async (req, res) => {
   const userId = req.params.id;
@@ -118,6 +134,7 @@ module.exports = {
   getAllUsers,
   createUser,
   updateUser,
+  getUserByEmail,
   deleteUser,
   getAdmin,
   makeAdmin,

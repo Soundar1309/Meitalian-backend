@@ -13,6 +13,8 @@ router.get("/", verifyToken, verifyAdmin, (req, res) => {
 // create a new user
 router.post("/", userController.createUser);
 
+// get user by email
+router.get("/:id", userController.getUserByEmail);
 //update user
 router.patch("/update", userController.updateUser);
 

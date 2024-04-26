@@ -9,12 +9,12 @@ const getCartByEmail = async (req, res) => {
     const query = { email: email };
     // console.log(email)
 
-     // extra for JWT verification 
-     const decodedEmail = req.decoded.email;
+    // extra for JWT verification
+    const decodedEmail = req.decoded.email;
 
-     if(email !== decodedEmail){
-        res.status(403).json({ message: "Forbidden access!"});
-     }
+    if (email !== decodedEmail) {
+      res.status(403).json({ message: "Forbidden access!" });
+    }
 
     const result = await Carts.find(query).exec();
     res.status(200).json(result);
@@ -25,12 +25,21 @@ const getCartByEmail = async (req, res) => {
 
 // post all carts
 const addToCarts = async (req, res) => {
-  const { name, recipe, image, price, email, quantity, menuItemId } = req.body;
+  const {
+    name,
+    recipe,
+    image,
+    price,
+    email,
+    quantity,
+    menuItemId,
+    size,
+    toppings,
+  } = req.body;
 
   try {
-    
     // Check if menuItemId already exists in the database
-    const existingCartItem = await Carts.findOne({email, menuItemId });
+    const existingCartItem = await Carts.findOne({ email, menuItemId, size });
     // console.log(existingCartItem)
 
     if (existingCartItem) {
@@ -49,6 +58,8 @@ const addToCarts = async (req, res) => {
       email,
       quantity,
       menuItemId,
+      size,
+      toppings,
     });
 
     res.status(201).json(cartItem);
