@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const paymentSchema = new Schema ({
     transitionId: String,
     email: String,
-    price: Number, 
+    price: Number,
     quantity: Number,
     status: String,
     itemsName: Array,
