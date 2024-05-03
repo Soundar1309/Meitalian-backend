@@ -24,12 +24,9 @@ const postMenuItem = async (req, res) => {
 // delete a menu item
 const deleteMenu = async (req, res) => {
   const menuId = req.params.id;
-  // console.log(menuId);
 
   try {
     const deletedMenu = await Menu.findByIdAndDelete(menuId);
-    // console.log(deletedMenu);
-
     if (!deletedMenu) {
       return res.status(404).json({ message: "Menu not found" });
     }
@@ -45,7 +42,6 @@ const singleMenuItem = async (req, res) => {
   const menuId = req.params.id;
   try {
     const menu = await Menu.findById(menuId);
-    // console.log(menu);
     res.status(200).json(menu);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -55,7 +51,6 @@ const singleMenuItem = async (req, res) => {
 // update a menu item
 const updateMenuItem = async (req, res) => {
   const menuId = req.params.id;
-  console.log(menuId);
   const {
     _id,
     name,
@@ -67,7 +62,6 @@ const updateMenuItem = async (req, res) => {
     toppings,
     createdAt,
   } = req.body;
-  // console.log(req.body)
   try {
     const updatedMenu = await Menu.findByIdAndUpdate(
       menuId,

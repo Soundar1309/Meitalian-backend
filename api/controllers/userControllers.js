@@ -16,7 +16,6 @@ const createUser = async (req, res) => {
   const query = { email: user.email };
   try {
     const existingUser = await User.findOne(query);
-    // console.log(existingUser)
     if (existingUser) {
       return res.status(302).json({ message: "User already exists" });
     }
@@ -48,10 +47,8 @@ const updateUser = async (req, res) => {
 
 const getUserByEmail = async (req, res) => {
   const email = req.params.id;
-  console.log(email);
   try {
     const getUser = await User.findOne({ email: email });
-    console.log(getUser);
     if (!getUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -66,8 +63,6 @@ const deleteUser = async (req, res) => {
   const userId = req.params.id;
   try {
     const deletedUser = await User.findByIdAndDelete(userId);
-    // console.log(deletedUser);
-
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -117,8 +112,6 @@ const makeAdmin = async (req, res) => {
       { role: role },
       { new: true, runValidators: true }
     );
-
-    // console.log(updatedUser)
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
