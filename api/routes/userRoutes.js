@@ -15,8 +15,12 @@ router.post("/", userController.createUser);
 
 // get user by email
 router.get("/:id", userController.getUserByEmail);
+
 //update user
 router.patch("/update", userController.updateUser);
+
+//update Address
+router.patch("/update-address", userController.updateAddress);
 
 // delete a user
 router.delete("/:id", verifyToken, verifyAdmin, userController.deleteUser);

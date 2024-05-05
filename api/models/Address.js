@@ -9,7 +9,6 @@ const addressSchema = new Schema({
   area: String,
   city: String,
   landmark: String,
-  defaultAddress: Boolean,
 });
 
 const Address = mongoose.model("Address", addressSchema);

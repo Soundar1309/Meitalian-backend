@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const sizeSchema = new mongoose.Schema({
+  label: { type: String },
+  price: { type: Number },
+});
+
 const menuSchema = new Schema({
   name: {
     type: String,
@@ -13,7 +18,9 @@ const menuSchema = new Schema({
   category: String,
   price: Number,
   toppings: [String],
-  size: [String],
+  size: {
+    type: [sizeSchema],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

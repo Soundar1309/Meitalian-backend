@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 //update user
 const updateUser = async (req, res) => {
   const { mobileNumber, email } = req.body;
@@ -33,6 +34,25 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
       { email: email },
       { mobileNumber: mobileNumber },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "updated User not found" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//update address
+const updateAddress = async (req, res) => {
+  const { address, email } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { address: address },
       { new: true, runValidators: true }
     );
 
@@ -102,10 +122,9 @@ const getAdmin = async (req, res) => {
 };
 
 //make admin of a user
-
 const makeAdmin = async (req, res) => {
   const userId = req.params.id;
-  const { name, email, photoURL, role } = req.body;
+  const { role } = req.body;
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -127,6 +146,7 @@ module.exports = {
   getAllUsers,
   createUser,
   updateUser,
+  updateAddress,
   getUserByEmail,
   deleteUser,
   getAdmin,
