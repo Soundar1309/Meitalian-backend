@@ -16,7 +16,6 @@ const createUser = async (req, res) => {
   const query = { email: user.email };
   try {
     const existingUser = await User.findOne(query);
-    // console.log(existingUser)
     if (existingUser) {
       return res.status(302).json({ message: "User already exists" });
     }
@@ -27,6 +26,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 //update user
 const updateUser = async (req, res) => {
   const { mobileNumber, email } = req.body;
@@ -46,12 +46,29 @@ const updateUser = async (req, res) => {
   }
 };
 
+//update address
+const updateAddress = async (req, res) => {
+  const { address, email } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { address: address },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "updated User not found" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getUserByEmail = async (req, res) => {
   const email = req.params.id;
-  console.log(email);
   try {
     const getUser = await User.findOne({ email: email });
-    console.log(getUser);
     if (!getUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -66,8 +83,6 @@ const deleteUser = async (req, res) => {
   const userId = req.params.id;
   try {
     const deletedUser = await User.findByIdAndDelete(userId);
-    // console.log(deletedUser);
-
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -107,18 +122,15 @@ const getAdmin = async (req, res) => {
 };
 
 //make admin of a user
-
 const makeAdmin = async (req, res) => {
   const userId = req.params.id;
-  const { name, email, photoURL, role } = req.body;
+  const { role } = req.body;
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { role: role },
       { new: true, runValidators: true }
     );
-
-    // console.log(updatedUser)
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -134,6 +146,7 @@ module.exports = {
   getAllUsers,
   createUser,
   updateUser,
+  updateAddress,
   getUserByEmail,
   deleteUser,
   getAdmin,

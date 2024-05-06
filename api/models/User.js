@@ -15,6 +15,7 @@ const userSchema = new Schema({
     default: "user",
   },
   mobileNumber: String,
+  address: String
 });
 
 const User = mongoose.model("User", userSchema);
