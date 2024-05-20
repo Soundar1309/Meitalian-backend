@@ -84,6 +84,22 @@ const deleteCart = async (req, res) => {
   }
 };
 
+// delete a cart by email
+const confirmOrder = async (req, res) => {
+  const email = req.query.email;
+  try {
+    const deletedCart = await Carts.deleteMany({ "email": email });
+
+    if (!deletedCart) {
+      return res.status(404).json({ message: "Cart Items not found" });
+    }
+
+    res.status(200).json({ message: "Cart Items Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // update cart quantity
 const updateCart = async (req, res) => {
   const cartId = req.params.id;
@@ -128,4 +144,5 @@ module.exports = {
   deleteCart,
   updateCart,
   getSingleCart,
+  confirmOrder
 };

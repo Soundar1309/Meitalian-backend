@@ -7,11 +7,17 @@ const cartController = require('../controllers/cartControllers');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyAdmin = require('../middlewares/verifyAdmin');
 
-router.get('/',verifyToken, (req, res) => {
+router.get('/', verifyToken, (req, res) => {
     cartController.getCartByEmail(req, res)
 });
 // post cart item
 router.post('/', cartController.addToCarts);
+
+// Confirm cart Orders
+router.post('/confirm', cartController.confirmOrder)
+
+// delete cart item
+router.delete('/:id', cartController.deleteCart)
 
 // delete cart item
 router.delete('/:id', cartController.deleteCart)
