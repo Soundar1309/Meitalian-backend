@@ -34,6 +34,7 @@ app.post("/jwt", async (req, res) => {
 // import routes
 const menuRoutes = require("./api/routes/menuRoutes");
 const cartsRoutes = require("./api/routes/cartRoutes");
+const orderRoutes = require("./api/routes/orderRoutes");
 const usersRoutes = require("./api/routes/userRoutes");
 const addressRoutes = require("./api/routes/addressRoutes");
 const paymentRoutes = require("./api/routes/paymentRoutes");
@@ -41,6 +42,7 @@ const adminStats = require("./api/routes/adminStats");
 const orderStats = require("./api/routes/orderStats");
 app.use("/menu", menuRoutes);
 app.use("/carts", cartsRoutes);
+app.use("/order", orderRoutes);
 app.use("/users", usersRoutes);
 app.use("/address", addressRoutes);
 app.use("/payments", paymentRoutes);

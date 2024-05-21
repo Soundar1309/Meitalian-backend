@@ -7,7 +7,7 @@ const getCartByEmail = async (req, res) => {
   try {
     const email = req.query.email;
     const query = { email: email };
-    // console.log(email)
+    // console.log(email);
 
     // extra for JWT verification
     const decodedEmail = req.decoded.email;
@@ -88,7 +88,7 @@ const deleteCart = async (req, res) => {
 const confirmOrder = async (req, res) => {
   const email = req.query.email;
   try {
-    const deletedCart = await Carts.deleteMany({ "email": email });
+    const deletedCart = await Carts.deleteMany({ email: email });
 
     if (!deletedCart) {
       return res.status(404).json({ message: "Cart Items not found" });
@@ -144,5 +144,5 @@ module.exports = {
   deleteCart,
   updateCart,
   getSingleCart,
-  confirmOrder
+  confirmOrder,
 };
