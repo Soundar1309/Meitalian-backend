@@ -1,5 +1,5 @@
 // all carts operations
-
+const Order = require("../models/Order");
 const Carts = require("../models/Carts");
 
 // get carts using email
@@ -7,7 +7,6 @@ const getCartByEmail = async (req, res) => {
   try {
     const email = req.query.email;
     const query = { email: email };
-    // console.log(email);
 
     // extra for JWT verification
     const decodedEmail = req.decoded.email;
@@ -86,15 +85,46 @@ const deleteCart = async (req, res) => {
 
 // delete a cart by email
 const confirmOrder = async (req, res) => {
-  const email = req.query.email;
   try {
-    const deletedCart = await Carts.deleteMany({ email: email });
+    const email = req.query.email;
+    const query = { email: email };
 
-    if (!deletedCart) {
-      return res.status(404).json({ message: "Cart Items not found" });
+    const decodedEmail = req.decoded.email;
+
+    if (email !== decodedEmail) {
+      return res.status(403).json({ message: "Forbidden access!" });
     }
 
-    res.status(200).json({ message: "Cart Items Deleted Successfully" });
+    const cart = await Carts.find(query);
+
+    if (!cart || cart?.length === 0) {
+      return res.status(500).json({ message: "Cart items not found" });
+    }
+
+    const orderItems = cart?.map((cartItem) => ({
+      name: cartItem.name,
+      recipe: cartItem.recipe,
+      image: cartItem.image,
+      price: cartItem.price,
+      quantity: cartItem.quantity,
+      size: cartItem.size,
+      toppings: cartItem.toppings,
+    }));
+
+    const newOrder = {
+      orderItems,
+      email: email,
+      total:
+        cart?.reduce(
+          (sum, cartItem) => sum + cartItem.price * cartItem.quantity,
+          0
+        ) || 0,
+      status: "Confirmed",
+    };
+
+    const order = await Order.create(newOrder);
+    const deleteCart = await Carts.deleteMany({ email: email });
+    res.status(200).json({ message: "Order created successfully!", order });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

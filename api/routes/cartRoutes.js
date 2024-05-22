@@ -1,31 +1,31 @@
-const express = require('express');
-const Carts = require('../models/Carts');
+const express = require("express");
+const Carts = require("../models/Carts");
 const router = express.Router();
 
-const cartController = require('../controllers/cartControllers');
+const cartController = require("../controllers/cartControllers");
 
-const verifyToken = require('../middlewares/verifyToken');
-const verifyAdmin = require('../middlewares/verifyAdmin');
+const verifyToken = require("../middlewares/verifyToken");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 
-router.get('/', verifyToken, (req, res) => {
-    cartController.getCartByEmail(req, res)
+router.get("/", verifyToken, (req, res) => {
+  cartController.getCartByEmail(req, res);
 });
 // post cart item
-router.post('/', cartController.addToCarts);
+router.post("/", cartController.addToCarts);
 
 // Confirm cart Orders
-router.post('/confirm', cartController.confirmOrder)
+router.post("/confirm", verifyToken, cartController.confirmOrder);
 
 // delete cart item
-router.delete('/:id', cartController.deleteCart)
+router.delete("/:id", cartController.deleteCart);
 
 // delete cart item
-router.delete('/:id', cartController.deleteCart)
+router.delete("/:id", cartController.deleteCart);
 
 // update cart quantity
-router.put('/:id', cartController.updateCart);
+router.put("/:id", cartController.updateCart);
 
 // get single cart item
-router.get('/:id', cartController.getSingleCart);
+router.get("/:id", cartController.getSingleCart);
 
 module.exports = router;

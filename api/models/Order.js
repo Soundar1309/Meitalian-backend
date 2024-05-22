@@ -11,16 +11,28 @@ const orderItemSchema = new Schema({
   image: String,
   price: Number,
   quantity: Number,
-  email: {
-    type: String,
-    trim: true,
-  },
   size: [String],
   toppings: [String],
 });
 
 const orderSchema = new Schema({
   orderItems: [orderItemSchema],
+  email: {
+    type: String,
+    trim: true,
+  },
+  total: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Order = mongoose.model("Order", orderSchema);

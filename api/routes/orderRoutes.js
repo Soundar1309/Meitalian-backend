@@ -8,8 +8,10 @@ const orderController = require("../controllers/orderControllers");
 const verifyToken = require("../middlewares/verifyToken");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 
-router.get("/", verifyToken, (req, res) => {
-  orderController.getOrderByEmail(req, res);
-});
+// router.get("/", verifyToken, (req, res) => {
+//   orderController.getOrderByEmail(req, res);
+// });
+
+router.get("/", orderController.getOrderByEmail);
 
 module.exports = router;
