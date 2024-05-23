@@ -21,6 +21,14 @@ const orderSchema = new Schema({
     type: String,
     trim: true,
   },
+  userName: {
+    type: String,
+    required: true,
+  },
+  mobileNumber: {
+    type: String,
+    required: true,
+  },
   total: {
     type: Number,
     required: true,

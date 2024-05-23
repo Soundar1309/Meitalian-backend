@@ -14,4 +14,6 @@ const verifyAdmin = require("../middlewares/verifyAdmin");
 
 router.get("/", orderController.getOrderByEmail);
 
+router.patch("/:id", orderController.updateOrder);
+
 module.exports = router;
