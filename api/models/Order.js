@@ -23,10 +23,12 @@ const orderSchema = new Schema({
   },
   userName: {
     type: String,
-    required: true,
   },
   mobileNumber: {
     type: String,
+  },
+  address: {
+    type: Object,
     required: true,
   },
   total: {
