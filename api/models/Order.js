@@ -21,6 +21,16 @@ const orderSchema = new Schema({
     type: String,
     trim: true,
   },
+  userName: {
+    type: String,
+  },
+  mobileNumber: {
+    type: String,
+  },
+  address: {
+    type: Object,
+    required: true,
+  },
   total: {
     type: Number,
     required: true,

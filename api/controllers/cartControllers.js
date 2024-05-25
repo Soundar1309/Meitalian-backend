@@ -88,6 +88,7 @@ const confirmOrder = async (req, res) => {
   try {
     const email = req.query.email;
     const query = { email: email };
+    const { address } = req.body;
 
     const decodedEmail = req.decoded.email;
 
@@ -114,6 +115,7 @@ const confirmOrder = async (req, res) => {
     const newOrder = {
       orderItems,
       email: email,
+      address: address,
       total:
         cart?.reduce(
           (sum, cartItem) => sum + cartItem.price * cartItem.quantity,
