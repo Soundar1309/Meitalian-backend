@@ -18,6 +18,7 @@ const cartSchema = new Schema({
     trim: true,
     required: true,
   },
+
   size: [String],
   toppings: [String],
 });

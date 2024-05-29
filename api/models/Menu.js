@@ -15,7 +15,7 @@ const menuSchema = new Schema({
   },
   recipe: String,
   image: String,
-  category: String,
+  category: [String],
   price: Number,
   toppings: [String],
   size: {
