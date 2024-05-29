@@ -16,4 +16,7 @@ router.get("/", orderController.getOrderByEmail);
 
 router.patch("/:id", orderController.updateOrder);
 
+// delete a menu item
+router.delete("/:id", verifyToken, verifyAdmin, orderController.deleteOrder);
+
 module.exports = router;

@@ -63,7 +63,25 @@ const updateOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// delete a menu item
+const deleteOrder = async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
+    if (!deletedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ message: "Order Item Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getOrderByEmail,
   updateOrder,
+  deleteOrder
 };
