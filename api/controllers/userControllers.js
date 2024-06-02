@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
   try {
     const existingUser = await User.findOne(query);
     if (existingUser) {
-      return res.status(302).json({ message: "User already exists" });
+      return res.status(200).json({ message: "User already exists" });
     }
 
     const result = await User.create(user);
